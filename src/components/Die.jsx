@@ -1,9 +1,7 @@
 export default function Die({value}){
   return(
     <>
-      <div className="dieElement">
-        <p>{value}</p>
-      </div>
+  <button className="dieElement" type="button">{value}</button>
     </>
   )
 }
