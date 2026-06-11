@@ -31,7 +31,7 @@ const [dice, setDice]=useState(generateAllNewDice())
   />)
 
   function rollDice(){
-    setDice(generateAllNewDice())
+    setDice(prevDice => prevDice.map(die=> die.isHeld? die: {...die, value: Math.ceil(Math.random()*6)}))
   }
 
   function hold(id){
