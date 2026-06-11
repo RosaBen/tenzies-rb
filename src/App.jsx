@@ -20,7 +20,7 @@ const [dice, setDice]=useState(generateAllNewDice())
 
   
 
-  const diceElements = dice.map((num)=> <Die key={num.id} value={num.value}/>)
+  const diceElements = dice.map((num)=> <Die key={num.id} value={num.value} isHeld={num.isHeld}/>)
 
   function rollDice(){
     setDice(generateAllNewDice())
