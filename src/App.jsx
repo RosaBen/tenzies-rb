@@ -16,13 +16,18 @@ const [dice, setDice]=useState(generateAllNewDice())
     return newDice
   }
 
-  const diceElements = dice.map(num=> <Die value={num}/>)
+  const diceElements = dice.map((num)=> <Die value={num}/>)
+
+  function rollDice(){
+    setDice(generateAllNewDice())
+  }
 
   return (
     <main>
       <section className="dice">
       {diceElements}
       </section>
+      <button className="roll-btn" onClick={rollDice}>Roll Dice</button>
     </main>
   )
 }
