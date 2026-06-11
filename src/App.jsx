@@ -3,6 +3,8 @@ import Die from "./components/Die"
 import {nanoid} from "nanoid"
 function App() {
 const [dice, setDice]=useState(generateAllNewDice())
+
+
   function generateAllNewDice(){
 
     // return new Array(10)
@@ -20,10 +22,22 @@ const [dice, setDice]=useState(generateAllNewDice())
 
   
 
-  const diceElements = dice.map((num)=> <Die key={num.id} value={num.value} isHeld={num.isHeld}/>)
+  const diceElements = dice.map((num)=> <Die 
+  key={num.id} 
+  value={num.value} 
+  isHeld={num.isHeld}
+  hold={hold}
+  id={num.id}
+  />)
 
   function rollDice(){
     setDice(generateAllNewDice())
+  }
+
+  function hold(id){
+    setDice(prevDice => prevDice.map(die =>
+      die.id === id? {...die, isHeld: !die.isHeld}: die
+    ))
   }
 
   return (
@@ -31,7 +45,7 @@ const [dice, setDice]=useState(generateAllNewDice())
       <section className="dice">
       {diceElements}
       </section>
-      <button className="roll-btn" onClick={rollDice}>Roll Dice</button>
+      <button className="roll-btn" onClick={rollDice}>Roll</button>
     </main>
   )
 }
