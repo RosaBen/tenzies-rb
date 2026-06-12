@@ -5,7 +5,7 @@ import Confetti from 'react-confetti-boom';
 import Footer from "./components/Footer";
 
 function App() {
-const [dice, setDice]=useState(generateAllNewDice())
+const [dice, setDice]=useState(() => generateAllNewDice())
 
 
 const gameWon = dice.every(die=> die.isHeld) && dice.every(die=>die.value === dice[0].value)
@@ -36,15 +36,19 @@ const gameWon = dice.every(die=> die.isHeld) && dice.every(die=>die.value === di
   id={num.id}
   />)
 
-  function resetGame(){
-    if(gameWon){
-      setDice(prevDice => prevDice.map(die => ({...die, isHeld: false})))
-      setDice(generateAllNewDice())
-    }
-  }
+  // function resetGame(){
+  //   if(gameWon){
+  //     setDice(prevDice => prevDice.map(die => ({...die, isHeld: false})))
+  //     setDice(generateAllNewDice())
+  //   }
+  // }
 
   function rollDice(){
-    setDice(prevDice => prevDice.map(die=> die.isHeld? die: {...die, value: Math.ceil(Math.random()*6)}))
+    if(!gameWon){
+      setDice(prevDice => prevDice.map(die=> die.isHeld? die: {...die, value: Math.ceil(Math.random()*6)}))
+    }else{
+      setDice(generateAllNewDice())
+    }
   }
 
   function hold(id){
@@ -62,7 +66,7 @@ const gameWon = dice.every(die=> die.isHeld) && dice.every(die=>die.value === di
       <section className="dice">
       {diceElements}
       </section>
-      <button className="roll-btn" onClick={gameWon? resetGame : rollDice}>{gameWon? "New Game" : "Roll" }</button>
+      <button className="roll-btn" onClick={rollDice}>{gameWon? "New Game" : "Roll" }</button>
     </main>
     <Footer />
     </>
