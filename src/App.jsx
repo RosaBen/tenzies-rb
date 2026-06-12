@@ -1,6 +1,8 @@
 import { useState } from "react"
 import Die from "./components/Die"
 import {nanoid} from "nanoid"
+import Confetti from 'react-confetti-boom';
+
 function App() {
 const [dice, setDice]=useState(generateAllNewDice())
 
@@ -52,6 +54,7 @@ const gameWon = dice.every(die=> die.isHeld) && dice.every(die=>die.value === di
 
   return (
     <main>
+      {gameWon? <Confetti mode="boom" particleCount={50} colors={['#ff577f', '#ff884b', "purple","#bd48bd", "#3737bd", "yellow", "green" ]} /> : null}
                   <h1 className="title">Tenzies</h1>
             <p className="instructions">Roll until all dice are the same. Click each die to freeze it at its current value between rolls.</p>
       <section className="dice">

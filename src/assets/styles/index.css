@@ -78,14 +78,14 @@ main {
 
 @keyframes rollBtn {
   0% {
-    background-color: purple;
+    background-color: #800080;
   }
 
   25% {
-    background-color: rgb(189, 72, 189);
+    background-color: #bd48bd;
   }
   50% {
-    background-color: rgb(55, 55, 189);
+    background-color: #3737bd;
   }
   100% {
     background-color: blue;
