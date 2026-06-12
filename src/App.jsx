@@ -1,122 +1,74 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
-import './App.css'
+import { useState } from "react"
+import Die from "./components/Die"
+import {nanoid} from "nanoid"
+import Confetti from 'react-confetti-boom';
+import Footer from "./components/Footer";
 
 function App() {
-  const [count, setCount] = useState(0)
+const [dice, setDice]=useState(generateAllNewDice())
+
+
+const gameWon = dice.every(die=> die.isHeld) && dice.every(die=>die.value === dice[0].value)
+
+
+  function generateAllNewDice(){
+
+    // return new Array(10)
+    //         .fill(0)
+    //         .map(() => ({value:Math.ceil(Math.random() * 6)), isHeld:false, id: nanoid()})
+    const newDice = []
+
+    for (let i=0 ; i<10; i++){
+      const rand = {value: Math.ceil(Math.random()*6), isHeld:false, id: nanoid()}
+      newDice.push(rand)
+    }
+
+    return newDice
+  }
+
+  
+
+  const diceElements = dice.map((num)=> <Die 
+  key={num.id} 
+  value={num.value} 
+  isHeld={num.isHeld}
+  hold={hold}
+  id={num.id}
+  />)
+
+  function resetGame(){
+    if(gameWon){
+      setDice(prevDice => prevDice.map(die => ({...die, isHeld: false})))
+      setDice(generateAllNewDice())
+    }
+  }
+
+  function rollDice(){
+    setDice(prevDice => prevDice.map(die=> die.isHeld? die: {...die, value: Math.ceil(Math.random()*6)}))
+  }
+
+  function hold(id){
+    setDice(prevDice => prevDice.map(die =>
+      die.id === id? {...die, isHeld: !die.isHeld}: die
+    ))
+  }
 
   return (
     <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.jsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
+        <main>
+      {gameWon? <Confetti mode="boom" particleCount={50} colors={['#ff577f', '#ff884b', "purple","#bd48bd", "#3737bd", "yellow", "green" ]} /> : null}
+                  <h1 className="title">Tenzies</h1>
+            <p className="instructions">Roll until all dice are the same. Click each die to freeze it at its current value between rolls.</p>
+      <section className="dice">
+      {diceElements}
       </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
+      <button className="roll-btn" onClick={gameWon? resetGame : rollDice}>{gameWon? "New Game" : "Roll" }</button>
+    </main>
+    <Footer />
     </>
   )
 }
 
 export default App
+
+
