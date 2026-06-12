@@ -59,7 +59,8 @@ main {
 
 .roll-btn {
   height: 50px;
-  width: 150px;
+  width: auto;
+  white-space: nowrap;
   box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.15);
   border-radius: 10px;
   border: none;
@@ -72,6 +73,7 @@ main {
   animation-iteration-count: infinite;
   border: none;
   color: white;
+  padding: 0 1rem;
 }
 
 @keyframes rollBtn {
@@ -88,4 +90,15 @@ main {
   100% {
     background-color: blue;
   }
+}
+
+.instructions {
+  font-family: "Inter", sans-serif;
+  font-weight: 400;
+  margin-top: 0;
+  text-align: center;
+}
+.title {
+  font-size: 40px;
+  margin: 0;
 }
