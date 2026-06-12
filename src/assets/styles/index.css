@@ -21,9 +21,9 @@ body {
 
 div#root {
   height: 100%;
-  max-height: 400px;
+  max-height: 500px;
   width: 100%;
-  max-width: 400px;
+  max-width: 500px;
 }
 
 main {
@@ -101,4 +101,27 @@ main {
 .title {
   font-size: 40px;
   margin: 0;
+}
+
+footer,
+footer a {
+  color: white;
+  line-height: 1.5;
+}
+
+footer a {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+footer a:hover,
+footer a:visited {
+  color: goldenrod;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  align-items: center;
 }
