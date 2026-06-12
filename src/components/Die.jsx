@@ -4,7 +4,14 @@ export default function Die({value, isHeld, hold, id}){
   }
   return(
     <>
-  <button className="dieElement" type="button" style={styles} onClick={() => hold(id)}>{value}</button>
+  <button 
+  className="dieElement" 
+  type="button" 
+  style={styles} 
+  onClick={() => hold(id)}
+  aria-pressed = {isHeld}
+  aria-label={`Die with value ${value}, ${isHeld? "held" : "not held"}`}
+  >{value}</button>
     </>
   )
 }
