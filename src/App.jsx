@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useRef, useEffect } from "react"
 import Die from "./components/Die"
 import {nanoid} from "nanoid"
 import Confetti from 'react-confetti-boom';
@@ -6,10 +6,17 @@ import Footer from "./components/Footer";
 
 function App() {
 const [dice, setDice]=useState(() => generateAllNewDice())
+const buttonRef = useRef(null)
 
 
 const gameWon = dice.every(die=> die.isHeld) && dice.every(die=>die.value === dice[0].value)
 
+
+useEffect(()=>{
+  if(gameWon){
+    buttonRef.current.focus()
+  }
+}, [gameWon])
 
   function generateAllNewDice(){
 
@@ -19,7 +26,7 @@ const gameWon = dice.every(die=> die.isHeld) && dice.every(die=>die.value === di
     const newDice = []
 
     for (let i=0 ; i<10; i++){
-      const rand = {value: Math.ceil(Math.random()*6), isHeld:false, id: nanoid()}
+      const rand = {value:5, isHeld:false, id: nanoid()}
       newDice.push(rand)
     }
 
@@ -60,13 +67,20 @@ const gameWon = dice.every(die=> die.isHeld) && dice.every(die=>die.value === di
   return (
     <>
         <main>
-      {gameWon? <Confetti mode="boom" particleCount={50} colors={['#ff577f', '#ff884b', "purple","#bd48bd", "#3737bd", "yellow", "green" ]} /> : null}
+      {gameWon && <Confetti mode="boom" particleCount={100} colors={['#ff577f', '#ff884b', "purple","#bd48bd", "#3737bd", "yellow", "green" ]} />}
+                  <div aria-live="polite" className="sr-only">
+                {gameWon && <p>Congratulations! You won! Press "New Game" to start again.</p>}
+            </div>
                   <h1 className="title">Tenzies</h1>
             <p className="instructions">Roll until all dice are the same. Click each die to freeze it at its current value between rolls.</p>
       <section className="dice">
       {diceElements}
       </section>
-      <button className="roll-btn" onClick={rollDice}>{gameWon? "New Game" : "Roll" }</button>
+      <button 
+      ref={buttonRef}
+      className="roll-btn" 
+      onClick={rollDice}
+      >{gameWon? "New Game" : "Roll" }</button>
     </main>
     <Footer />
     </>
